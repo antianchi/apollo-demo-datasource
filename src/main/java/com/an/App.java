@@ -26,7 +26,7 @@ public class App  implements CommandLineRunner {
     Executors.newSingleThreadExecutor().submit(()->{
       while(true) {
         System.err.println(repository.findById(1).get().getName());
-        TimeUnit.SECONDS.sleep(1);
+        TimeUnit.SECONDS.sleep(30);
       }
     });
   }
