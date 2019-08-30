@@ -8,6 +8,7 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.alibaba.druid.pool.DruidDataSource;
 import com.zaxxer.hikari.HikariDataSource;
 import com.zaxxer.hikari.HikariPoolMXBean;
 
@@ -45,6 +46,8 @@ public class DataSourceTerminationTask implements Runnable {
       LOGGER.info("尝试终止数据源： [{}]", dataSource);
       if (dataSource instanceof HikariDataSource) {
         return terminateHikariDataSource((HikariDataSource) dataSource);
+      } else if(dataSource instanceof DruidDataSource) {
+        return terminateDruidDataSource((DruidDataSource) dataSource);
       }
 
       LOGGER.error("不支持的数据源: [{}]", dataSource);
@@ -58,6 +61,13 @@ public class DataSourceTerminationTask implements Runnable {
     } finally {
       retryTimes++;
     }
+  }
+
+  // 终止DRUID数据源
+  private boolean terminateDruidDataSource(DruidDataSource dataSource) {
+    LOGGER.info("关闭旧的DRUID数据源，[{}]",dataSource.getUrl());
+    dataSource.close();
+    return true;
   }
 
   private boolean terminateHikariDataSource(HikariDataSource dataSource) {

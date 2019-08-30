@@ -71,7 +71,7 @@ public class RedisConnectionFactoryRefresher
         .getAndSet(connectionFactory);
     asyncTerminate(redisConnectionFactory);
 
-    LOGGER.info("Finished refreshing data source");
+    LOGGER.info("Finished refreshing redis source");
 
   }
 

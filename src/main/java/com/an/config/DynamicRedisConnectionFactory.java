@@ -1,7 +1,10 @@
 package com.an.config;
 
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -10,10 +13,10 @@ import org.springframework.data.redis.connection.RedisClusterConnection;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisSentinelConnection;
-import org.springframework.data.redis.core.RedisTemplate;
 
 public class DynamicRedisConnectionFactory implements RedisConnectionFactory,ApplicationContextAware{
 
+  private static final Logger LOGGER = LoggerFactory.getLogger(DynamicRedisConnectionFactory.class);
   private AtomicReference<RedisConnectionFactory> redisConnectionFactory;
   private ApplicationContext applicationContext;
   
@@ -28,10 +31,11 @@ public class DynamicRedisConnectionFactory implements RedisConnectionFactory,App
   }
 
   public RedisConnectionFactory getAndSet(RedisConnectionFactory connectionFactory) {
-    RedisTemplate bean2 = (RedisTemplate) applicationContext.getBean("redisTemplate");
-    RedisTemplate bean3 = (RedisTemplate) applicationContext.getBean("stringRedisTemplate");
-    bean2.setConnectionFactory(connectionFactory);
-    bean3.setConnectionFactory(connectionFactory);
+//    Map<String, RedisTemplate> beansOfType = applicationContext.getBeansOfType(RedisTemplate.class);
+//    for (Map.Entry<String, RedisTemplate> entry : beansOfType.entrySet()) {
+//      LOGGER.info("RedisTemplate替换连接工厂BEANNAME[{}]",entry.getKey());
+//      entry.getValue().setConnectionFactory(connectionFactory);
+//    }
     return redisConnectionFactory.getAndSet(connectionFactory);
   }
   

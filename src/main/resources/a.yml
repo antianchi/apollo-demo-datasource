@@ -1,5 +1,30 @@
-
 spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver # &amp;
+    url: jdbc:mysql://10.8.29.70/bas?useUnicode=true&charaterEncoding=utf8&zeroDateTimeBehavior=convertToNull
+    username: dev
+    password: eastcom
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 100
+      max-active: 500
+      min-idle: 10
+      max-wait: 60000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      validation-query: SELECT 1
+      test-on-borrow: true
+      test-on-return: true
+      test-while-idle: true
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      time-between-eviction-runs-millis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒 
+      min-evictable-idle-time-millis: 300000
+      max-evictable-idle-time-millis: 600000
+      filters: stat,wall
+      remove-abandoned-timeout: 60000
+      remove-abandoned: true
+
   redis:
     lettuce:
       pool:

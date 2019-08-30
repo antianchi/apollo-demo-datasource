@@ -13,7 +13,7 @@ import com.ctrip.framework.apollo.spring.annotation.EnableApolloConfig;
 
 @EnableApolloConfig
 @SpringBootApplication
-public class App  implements CommandLineRunner {
+public class App implements CommandLineRunner {
 
   @Autowired
   private UserRepository repository;
@@ -23,12 +23,11 @@ public class App  implements CommandLineRunner {
 
   @Override
   public void run(String... args) throws Exception {
-    Executors.newSingleThreadExecutor().submit(()->{
-      while(true) {
+    Executors.newSingleThreadExecutor().submit(() -> {
+      while (true) {
         System.err.println(repository.findById(1).get().getName());
         TimeUnit.SECONDS.sleep(30);
       }
     });
   }
 }
-
